@@ -1,8 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- <service
+       android:name="com.example.myapp.PushNotificationService"
+       android:exported="false">
+       <intent-filter>
+       <action android:name="com.google.firebase.MESSAGING_EVENT" />
+       </intent-filter>
+    </service> -->
     <application
-        android:label="attendance_app_new"
+        android:label="todo_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDaiZZs_IX3LcaK5rkQ_z9ccPq94Vlf6XY"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

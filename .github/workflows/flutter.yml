@@ -33,9 +33,11 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
+      - name: Set build name based on date
+        run: echo "BUILD_NAME=attendance-app-$(date +'%d-%m-%Y')" >> $GITHUB_ENV
+
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: attendance_apk
+          name: ${{ env.BUILD_NAME }}
           path: build/app/outputs/flutter-apk/app-release.apk
-

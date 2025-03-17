@@ -30,14 +30,27 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --release
+      - name: Set Environment Type
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "BUILD_ENV=production" >> $GITHUB_ENV
+          else
+            echo "BUILD_ENV=dev" >> $GITHUB_ENV
+          fi
 
-      - name: Set build name based on date
-        run: echo "BUILD_NAME=attendance-app-$(date +'%d-%m-%Y')" >> $GITHUB_ENV
+      - name: Build APK
+        run: |
+          if [[ "${{ env.BUILD_ENV }}" == "production" ]]; then
+            flutter build apk --release
+          else
+            flutter build apk --debug
+          fi
+
+      - name: Set build name based on date and environment
+        run: echo "BUILD_NAME=attendance-app-$(date +'%d-%m-%Y').${{ env.BUILD_ENV }}" >> $GITHUB_ENV
 
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BUILD_NAME }}
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-${{ env.BUILD_ENV == 'production' && 'release' || 'debug' }}.apk

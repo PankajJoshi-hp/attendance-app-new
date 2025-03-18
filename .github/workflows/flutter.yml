@@ -30,8 +30,17 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Install Shorebird
+        run: |
+          curl -sL https://install.shorebird.dev | bash
+          echo "$HOME/.shorebird/bin" >> $GITHUB_PATH
+          shorebird --version
+
+      - name: Authenticate Shorebird
+        run: shorebird login --ci --token ${{ secrets.SHOREBIRD_TOKEN }}
+
       - name: Run Flutter Analyzer (Lint)
-        run:  flutter analyze || exit 1
+        run: flutter analyze || exit 1
 
       - name: Set Environment Type
         run: |
@@ -57,3 +66,21 @@ jobs:
         with:
           name: ${{ env.BUILD_NAME }}
           path: build/app/outputs/flutter-apk/app-${{ env.BUILD_ENV == 'production' && 'release' || 'debug' }}.apk
+
+      #  Release for Production
+      - name: Create Shorebird Release (Production)
+        if: env.BUILD_ENV == 'production'
+        run: |
+          shorebird release android build/app/outputs/flutter-apk/app-release.apk
+
+      # For updating dart-only fixes in production
+      - name: Create Shorebird Patch (Production)
+        if: env.BUILD_ENV == 'production'
+        run: |
+          shorebird patch android build/app/outputs/flutter-apk/app-release.apk
+
+      
+      - name: Create Shorebird Patch (Development)
+        if: env.BUILD_ENV == 'dev'
+        run: |
+          shorebird patch android build/app/outputs/flutter-apk/app-debug.apk

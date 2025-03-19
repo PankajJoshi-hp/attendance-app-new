@@ -44,6 +44,12 @@ jobs:
             echo "BUILD_ENV=dev" >> $GITHUB_ENV
           fi
 
+      #  Setup Shorebird (correctly placed)
+      - name: Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v1
+        with:
+          cache: true
+          
       #  Use Shorebird for building instead of Flutter
       - name: Build APK with Shorebird
         run: |
@@ -62,11 +68,6 @@ jobs:
           name: ${{ env.BUILD_NAME }}
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      #  Setup Shorebird (correctly placed)
-      - name: Setup Shorebird
-        uses: shorebirdtech/setup-shorebird@v1
-        with:
-          cache: true
 
       #  Create Shorebird Patch (only for development)
       - name: Create Shorebird Patch

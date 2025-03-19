@@ -44,7 +44,7 @@ jobs:
             echo "BUILD_ENV=dev" >> $GITHUB_ENV
           fi
 
-      # ✅ Auto-bump version in pubspec.yaml
+      #  Auto-bump version in pubspec.yaml
       - name: Bump Version
         run: |
           CURRENT_VERSION=$(grep 'version:' pubspec.yaml | cut -d "+" -f 2)

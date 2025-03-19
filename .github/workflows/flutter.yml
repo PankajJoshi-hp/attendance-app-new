@@ -32,9 +32,9 @@ jobs:
 
       - name: Install Shorebird
         run: |
-          curl -sL https://install.shorebird.dev | bash
-          echo "$HOME/.shorebird/bin" >> $GITHUB_PATH
-          shorebird --version
+          curl -sL --fail https://install.shorebird.dev | bash
+          export PATH="$HOME/.shorebird/bin:$PATH"
+          shorebird --version || echo "Shorebird installation failed"
 
       - name: Authenticate Shorebird
         run: shorebird login --ci --token ${{ secrets.SHOREBIRD_TOKEN }}

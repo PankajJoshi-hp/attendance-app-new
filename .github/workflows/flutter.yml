@@ -50,19 +50,9 @@ jobs:
         with:
           cache: true
           
-      # Use Shorebird for building
-      - name: Build APK with Shorebird
-        run: |
-          if [[ "${{ env.BUILD_ENV }}" == "production" ]]; then
-            # For production builds
-            shorebird release android
-          else
-            # For development builds
-            # First build a normal release APK to use as artifact
-            flutter build apk --release
-            # Then use shorebird preview without the unrecognized flag
-            shorebird preview
-          fi
+      # Build APK (using Flutter directly)
+      - name: Build APK
+        run: flutter build apk --release
 
       - name: Set build name based on date and environment
         run: echo "BUILD_NAME=attendance-app-$(date +'%d-%m-%Y').${{ env.BUILD_ENV }}" >> $GITHUB_ENV

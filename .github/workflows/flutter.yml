@@ -49,10 +49,15 @@ jobs:
         uses: shorebirdtech/setup-shorebird@v1
         with:
           cache: true
-          
-      # Build APK (using Flutter directly)
-      - name: Build APK
-        run: flutter build apk --release
+
+      # Build APK using Shorebird build command
+      - name: Build with Shorebird Engine
+        run: |
+          # First, try shorebird build command (should work non-interactively)
+          shorebird build apk --release || {
+            echo "Shorebird build failed, falling back to regular flutter build"
+            flutter build apk --release
+          }
 
       - name: Set build name based on date and environment
         run: echo "BUILD_NAME=attendance-app-$(date +'%d-%m-%Y').${{ env.BUILD_ENV }}" >> $GITHUB_ENV

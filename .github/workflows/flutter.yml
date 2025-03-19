@@ -44,12 +44,13 @@ jobs:
             echo "BUILD_ENV=dev" >> $GITHUB_ENV
           fi
 
-      - name: Build APK
+      #  Use Shorebird for building instead of Flutter
+      - name: Build APK with Shorebird
         run: |
           if [[ "${{ env.BUILD_ENV }}" == "production" ]]; then
-            flutter build apk --release
+            shorebird release android
           else
-            flutter build apk --debug
+            shorebird preview
           fi
 
       - name: Set build name based on date and environment
@@ -59,15 +60,15 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BUILD_NAME }}
-          path: build/app/outputs/flutter-apk/app-${{ env.BUILD_ENV == 'production' && 'release' || 'debug' }}.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
 
-      # Setup Shorebird
+      #  Setup Shorebird (correctly placed)
       - name: Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
           cache: true
 
-      # Create Shorebird Patch (only for development)
+      #  Create Shorebird Patch (only for development)
       - name: Create Shorebird Patch
         if: env.BUILD_ENV == 'dev'
         uses: shorebirdtech/shorebird-patch@v0

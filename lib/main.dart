@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Shorebird Code Push Applicaion')),
+      appBar: AppBar(title: const Text('Shorebird Code Push Application ')),
       body: Center(
         child: Text(
           'Patch: ${_currentPatch?.number ?? "None"}',

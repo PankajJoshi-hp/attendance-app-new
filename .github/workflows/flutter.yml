@@ -44,14 +44,6 @@ jobs:
             echo "BUILD_ENV=dev" >> $GITHUB_ENV
           fi
 
-      # ✅ Create Shorebird Patch (only for development)
-      - name: Create Shorebird Patch
-        if: env.BUILD_ENV == 'dev'
-        uses: shorebirdtech/shorebird-patch@v0
-        with:
-          platform: android
-          release-version: 1.0.0+1
-          
       - name: Build APK
         run: |
           if [[ "${{ env.BUILD_ENV }}" == "production" ]]; then
@@ -69,9 +61,16 @@ jobs:
           name: ${{ env.BUILD_NAME }}
           path: build/app/outputs/flutter-apk/app-${{ env.BUILD_ENV == 'production' && 'release' || 'debug' }}.apk
 
-      # ✅ Setup Shorebird
+      # Setup Shorebird
       - name: Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
           cache: true
 
+      # Create Shorebird Patch (only for development)
+      - name: Create Shorebird Patch
+        if: env.BUILD_ENV == 'dev'
+        uses: shorebirdtech/shorebird-patch@v0
+        with:
+          platform: android
+          release-version: 1.0.0+1

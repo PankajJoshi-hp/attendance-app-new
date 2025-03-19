@@ -67,20 +67,8 @@ jobs:
           name: ${{ env.BUILD_NAME }}
           path: build/app/outputs/flutter-apk/app-${{ env.BUILD_ENV == 'production' && 'release' || 'debug' }}.apk
 
-      #  Release for Production
-      - name: Create Shorebird Release (Production)
-        if: env.BUILD_ENV == 'production'
-        run: |
-          shorebird release android build/app/outputs/flutter-apk/app-release.apk
-
-      # For updating dart-only fixes in production
-      - name: Create Shorebird Patch (Production)
-        if: env.BUILD_ENV == 'production'
-        run: |
-          shorebird patch android build/app/outputs/flutter-apk/app-release.apk
-
-      
       - name: Create Shorebird Patch (Development)
         if: env.BUILD_ENV == 'dev'
         run: |
-          shorebird patch android build/app/outputs/flutter-apk/app-debug.apk
+          shorebird login --ci --token ${{ secrets.SHOREBIRD_TOKEN }}
+          shorebird patch android

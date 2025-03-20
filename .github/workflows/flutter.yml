@@ -63,11 +63,11 @@ jobs:
           name: ${{ env.BUILD_NAME }}
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      # Create Shorebird Release first (only for development)
-      - name: Create Shorebird Release
-        if: env.BUILD_ENV == 'dev'
-        run: |
-          shorebird release android
+      # # Create Shorebird Release first (only for development)
+      # - name: Create Shorebird Release
+      #   if: env.BUILD_ENV == 'dev'
+      #   run: |
+      #     shorebird release android
 
       # Create Shorebird Patch after release (only for development)
       - name: Create Shorebird Patch

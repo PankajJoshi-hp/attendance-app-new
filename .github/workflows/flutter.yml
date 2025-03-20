@@ -75,4 +75,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BUILD_NAME }}-shorebird
-          path: build/app/outputs/shorebird/android-release.apk
+          path: build/app/outputs/bundle/release/app-release.aab

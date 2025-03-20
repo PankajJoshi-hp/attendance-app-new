@@ -57,20 +57,22 @@ jobs:
       - name: Set build name based on date and environment
         run: echo "BUILD_NAME=attendance-app-$(date +'%d-%m-%Y').${{ env.BUILD_ENV }}" >> $GITHUB_ENV
 
-      - name: Upload APK as Artifact
+      - name: Upload Flutter APK as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BUILD_NAME }}
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      # # Create Shorebird Release first (only for development)
-      # - name: Create Shorebird Release
-      #   if: env.BUILD_ENV == 'dev'
-      #   run: |
-      #     shorebird release android
-
       # Create Shorebird Patch after release (only for development)
       - name: Create Shorebird Patch
         if: env.BUILD_ENV == 'dev'
         run: |
-          shorebird patch android
+          shorebird patch android --release-version=latest
+
+      # To Upload Shorebird Patched APK as well
+      - name: Upload Shorebird Patched APK
+        if: env.BUILD_ENV == 'dev'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.BUILD_NAME }}-shorebird
+          path: build/app/outputs/shorebird/android-release.apk

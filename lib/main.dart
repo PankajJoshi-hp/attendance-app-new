@@ -31,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _updater.readCurrentPatch().then((patch) {
+      debugPrint("Current Patch: ${patch?.number ?? 'None'}");
       setState(() => _currentPatch = patch);
     });
   }
@@ -49,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: const Text('Shorebird Code Push Application ')),
       body: Center(
         child: Text(
-          'Patch Value is : ${_currentPatch?.number ?? "None"}',
+          'Patch Value : ${_currentPatch?.number ?? "None"}',
           style: const TextStyle(fontSize: 18),
         ),
       ),

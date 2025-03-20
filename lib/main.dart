@@ -50,8 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: const Text('Shorebird Code Push Application ')),
       body: Center(
         child: Text(
-          'Shorebird Patch Value : ${_currentPatch?.number ?? "None"}',
-          style: const TextStyle(fontSize: 18),
+          'Shorebird Patch is updated : ${_currentPatch?.number ?? "None"}',
+          style: const TextStyle(fontSize: 18, color: Colors.blueAccent),
         ),
       ),
       floatingActionButton: FloatingActionButton(

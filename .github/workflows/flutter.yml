@@ -80,8 +80,11 @@ jobs:
       # Install Google Drive CLI (gdrive)
       - name: Install gdrive
         run: |
-          curl -fsSL https://github.com/prasmussen/gdrive/releases/download/2.1.1/gdrive_linux-x64 \
-          -o /usr/local/bin/gdrive && chmod +x /usr/local/bin/gdrive
+          curl -L -o gdrive.tgz https://github.com/prasmussen/gdrive/releases/latest/download/gdrive-linux-x64.tar.gz
+          tar -xvf gdrive.tgz
+          sudo mv gdrive /usr/local/bin/gdrive
+          sudo chmod +x /usr/local/bin/gdrive
+          gdrive version  # Verify installation
 
       # Decode Google Drive credentials and save as JSON file
       - name: Configure Google Drive API

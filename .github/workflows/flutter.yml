@@ -1,4 +1,4 @@
-name: Flutter CI/CD
+name: Flutter CI/CD with Google Drive
 
 on:
   push:
@@ -76,3 +76,20 @@ jobs:
         with:
           name: ${{ env.BUILD_NAME }}-shorebird
           path: build/app/outputs/bundle/release/app-release.aab
+
+      # Install Google Drive CLI (gdrive)
+      - name: Install gdrive
+        run: |
+          curl -fsSL https://github.com/prasmussen/gdrive/releases/download/2.1.1/gdrive_linux-x64 \
+          -o /usr/local/bin/gdrive && chmod +x /usr/local/bin/gdrive
+
+      # Decode Google Drive credentials and save as JSON file
+      - name: Configure Google Drive API
+        run: echo "${{ secrets.GDRIVE_CREDENTIALS }}" | base64 --decode > /home/runner/work/service-account.json
+
+      # Upload APK to Google Drive
+      - name: Upload to Google Drive
+        env:
+          GDRIVE_FOLDER_ID: "18IhGQl2kZrpltqqKUenytMfQ8_86KeID" # Replace this
+        run: |
+          /usr/local/bin/gdrive --service-account /home/runner/work/service-account.json upload --parent $GDRIVE_FOLDER_ID build/app/outputs/flutter-apk/app-release.apk

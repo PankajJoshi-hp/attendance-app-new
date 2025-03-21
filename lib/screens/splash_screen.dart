@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
     // } else {
     //   Get.off(() => Onboarding());
     // }
-    Get.to(HomePage());
+    Get.off(HomePage());
   }
 
   @override

@@ -8,6 +8,7 @@ import 'package:attendance_app_new/reusable_widgets/app_colors.dart';
 import 'package:attendance_app_new/reusable_widgets/push_notification_service.dart';
 import 'package:attendance_app_new/screens/profile_page.dart';
 import 'package:attendance_app_new/screens/splash_screen.dart';
+import 'package:attendance_app_new/screens/test_screens/connectivity_info_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -222,41 +223,7 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Get.to(MapsDemo());
-            //   },
-            //   style: ButtonStyle(
-            //       backgroundColor: WidgetStatePropertyAll(Colors.blueGrey)),
-            //   child: Text('Map page'),
-            // ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Get.to(AllUsersPage());
-            //   },
-            //   style: ButtonStyle(
-            //       backgroundColor: WidgetStatePropertyAll(Colors.grey[100])),
-            //   child: Text('All Users'),
-            // ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Get.to(PaginationExample());
-            //   },
-            //   style: ButtonStyle(
-            //       backgroundColor: WidgetStatePropertyAll(Colors.grey[100])),
-            //   child: Text('Pagination Example'),
-            // ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Get.to(SearchableDropdown());
-            //   },
-            //   style: ButtonStyle(
-            //       backgroundColor: WidgetStatePropertyAll(Colors.grey[100])),
-            //   child: Text('Searchable Dropdown'),
-            // ),
-            // // Text('Last message from Firebase Messaging:',
-            // //     style: Theme.of(context).textTheme.titleLarge),
-            // Text(_lastMessage, style: Theme.of(context).textTheme.bodyLarge),
+            ElevatedButton(onPressed:() => Get.to(ConnectivityInfoScreen()), child: Text('Connectivity Info'))
           ],
         ),
       ),

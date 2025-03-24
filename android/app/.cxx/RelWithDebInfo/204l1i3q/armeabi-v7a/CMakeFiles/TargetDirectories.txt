@@ -1,0 +1,2 @@
+C:/Users/panka/attendance_app_new/android/app/.cxx/RelWithDebInfo/204l1i3q/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/panka/attendance_app_new/android/app/.cxx/RelWithDebInfo/204l1i3q/armeabi-v7a/CMakeFiles/rebuild_cache.dir

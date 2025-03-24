@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _updater.readCurrentPatch().then((patch) {
-      debugPrint("Current Patch: ${patch?.number ?? 'None'}");
+      debugPrint("Current Patch is: ${patch?.number ?? 'None'}");
       setState(() => _currentPatch = patch);
     });
   }

@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class ConnectivityInfoScreen extends StatefulWidget {
   const ConnectivityInfoScreen({super.key});
@@ -12,79 +9,59 @@ class ConnectivityInfoScreen extends StatefulWidget {
 }
 
 class _ConnectivityInfoScreenState extends State<ConnectivityInfoScreen> {
-  List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+  String _connectionStatus = 'Unknown';
 
   @override
   void initState() {
     super.initState();
-    initConnectivity();
-
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-  }
-
-  @override
-  void dispose() {
-    _connectivitySubscription.cancel();
-    super.dispose();
-  }
-
-  Future<void> initConnectivity() async {
-    late List<ConnectivityResult> result;
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print(
-        'Couldn\'t check connectivity status ${e.message}',
-      );
-      return;
-    }
-
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
-    setState(() {
-      _connectionStatus = result;
+    _checkConnectivity();
+    // Listen to connectivity changes
+    Connectivity()
+        .onConnectivityChanged
+        .listen((List<ConnectivityResult> result) {
+      setState(() {
+        _connectionStatus = result.first.toString().split('.').last;
+      });
     });
-    print('Connectivity changed: $_connectionStatus');
+  }
+
+  Future<void> _checkConnectivity() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    setState(() {
+      _connectionStatus = connectivityResult.toString().split('.').last;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Connectivity Plus Example'),
-        elevation: 4,
+        title: const Text('Connectivity Info'),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Spacer(flex: 2),
-          Text(
-            'Active connection types:',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const Spacer(),
-          ListView(
-            shrinkWrap: true,
-            children: List.generate(
-                _connectionStatus.length,
-                (index) => Center(
-                      child: Text(
-                        _connectionStatus[index].toString(),
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    )),
-          ),
-          const Spacer(flex: 2),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Current Connection Status:',
+              style: TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              _connectionStatus,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: _connectionStatus == 'none' ? Colors.red : Colors.green,
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _checkConnectivity,
+              child: const Text('Check Connection'),
+            ),
+          ],
+        ),
       ),
     );
   }
